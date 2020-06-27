@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "226162341039",
+    "firebase_url": "https://override-72c60.firebaseio.com",
+    "project_id": "override-72c60",
+    "storage_bucket": "override-72c60.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226162341039:android:d4a45e5d7853516672d05a",
+        "android_client_info": {
+          "package_name": "com.override.todo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "226162341039-33o6m7vcko2asan2e2hj5ra3ti98qn8d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVjc9NMerPx7tJlR3fJM7vYjvZwecwN-0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "226162341039-33o6m7vcko2asan2e2hj5ra3ti98qn8d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "226162341039-p2jr77phudreui9irhq0omp19813o080.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.override.todo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
