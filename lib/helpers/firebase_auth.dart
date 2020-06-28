@@ -30,7 +30,7 @@ class FirebaseAuthentication {
 
   static Future<AuthResult> singInWithFacebook() async {
     final facebookLogIn = FacebookLogin();
-    var result = await facebookLogIn.logIn(["id"]);
+    var result = await facebookLogIn.logIn(["email"]);
     print(result.accessToken);
 
     if (result.status == FacebookLoginStatus.loggedIn) {
