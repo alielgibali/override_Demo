@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:override_todo_demo/helpers/firebase_auth.dart';
 import 'package:override_todo_demo/providers/spinner.dart';
 import 'package:provider/provider.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthForm extends StatefulWidget {
-  AuthForm(
+  AuthForm({
     this.submitFn,
-  );
+    this.tryWithGoogle,
+  });
   final void Function(String email, String userName, String password,
       bool isLogin, BuildContext ctx) submitFn;
+  final void Function(BuildContext context) tryWithGoogle;
   @override
   AuthFormState createState() => AuthFormState();
 }
@@ -18,21 +20,13 @@ class AuthForm extends StatefulWidget {
 class AuthFormState extends State<AuthForm> {
   final _formKey = GlobalKey<FormState>();
   static bool isLoading = false;
-  final _userNameFocus = FocusNode();
-  final _passwordFocus = FocusNode();
+
   var _isLogin = true;
   var _userEmail = '';
   var _userName = '';
   var _userPassword = '';
-  @override
-  void dispose() {
-    super.dispose();
-    _userNameFocus.dispose();
-    _passwordFocus.dispose();
-  }
 
   void _trySubmit() {
-    // FocusScope.of(context).unfocus();
     final isValid = _formKey.currentState.validate();
     if (isValid) {
       setState(() {
@@ -146,7 +140,6 @@ class AuthFormState extends State<AuthForm> {
                           },
                           onSaved: (value) {
                             _userName = value;
-                            FocusScope.of(context).requestFocus(_passwordFocus);
                           },
                           decoration: InputDecoration(
                               prefixIcon: Icon(
@@ -263,7 +256,7 @@ class AuthFormState extends State<AuthForm> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(40)),
                             ),
-                            onPressed: () {},
+                            onPressed: () => widget.tryWithGoogle(context),
                           ),
                         ),
                         SizedBox(

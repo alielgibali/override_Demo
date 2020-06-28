@@ -52,6 +52,18 @@ class AuthScreen extends StatelessWidget {
     }
   }
 
+  void _tryWithGoogle(BuildContext context) async {
+    AuthResult authResult;
+    try {
+      authResult = await FirebaseAuthentication.signInWithGoogle();
+      Navigator.of(context).pushReplacementNamed(ToDo.routeName);
+    } on PlatformException catch (err) {
+      throw err;
+    } catch (error) {
+      print(error);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -60,7 +72,8 @@ class AuthScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       body: AuthForm(
-        _submitAuthForm,
+        submitFn: _submitAuthForm,
+        tryWithGoogle: _tryWithGoogle,
       ),
     );
   }
