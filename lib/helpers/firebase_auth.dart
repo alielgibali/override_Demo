@@ -35,10 +35,33 @@ class FirebaseAuthentication {
 
     if (result.status == FacebookLoginStatus.loggedIn) {
       FacebookAccessToken myToken = result.accessToken;
+      print('SuccessToken:${myToken.token}');
       AuthCredential credential =
           FacebookAuthProvider.getCredential(accessToken: myToken.token);
 
       return _auth.signInWithCredential(credential);
     }
+
+
+// final facebookLogin = FacebookLogin();
+
+// final result = await facebookLogin.logIn(['id']);
+
+// switch (result.status) {
+//   case FacebookLoginStatus.loggedIn:
+//     // _sendTokenToServer(result.accessToken.token);
+//     // _showLoggedInUI();
+//     print('MyToken:${result.accessToken.token}');
+
+//     break;
+//   case FacebookLoginStatus.cancelledByUser:
+//    // _showCancelledMessage();
+//     break;
+//   case FacebookLoginStatus.error:
+//    // _showErrorOnUI(result.errorMessage);
+
+//    print('Error:${result.errorMessage}');
+//     break;
+// }
   }
 }
