@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:override_todo_demo/helpers/firebase_auth.dart';
 import 'package:override_todo_demo/providers/spinner.dart';
 import 'package:provider/provider.dart';
 import 'package:wave/config.dart';
@@ -9,10 +8,13 @@ class AuthForm extends StatefulWidget {
   AuthForm({
     this.submitFn,
     this.tryWithGoogle,
+    this.tryWithFacebook,
   });
   final void Function(String email, String userName, String password,
       bool isLogin, BuildContext ctx) submitFn;
   final void Function(BuildContext context) tryWithGoogle;
+  final void Function(BuildContext context) tryWithFacebook;
+
   @override
   AuthFormState createState() => AuthFormState();
 }
@@ -271,7 +273,7 @@ class AuthFormState extends State<AuthForm> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(40)),
                             ),
-                            onPressed: () {},
+                            onPressed: () => widget.tryWithFacebook(context),
                           ),
                         ),
                         SizedBox(

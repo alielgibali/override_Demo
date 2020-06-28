@@ -9,8 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthScreen extends StatelessWidget {
-  final _auth = FirebaseAuth.instance;
-
   void _submitAuthForm(
     String email,
     String userName,
@@ -56,6 +54,24 @@ class AuthScreen extends StatelessWidget {
     AuthResult authResult;
     try {
       authResult = await FirebaseAuthentication.signInWithGoogle();
+      if (authResult == null) {
+        return;
+      }
+      Navigator.of(context).pushReplacementNamed(ToDo.routeName);
+    } on PlatformException catch (err) {
+      throw err;
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  void _tryWithFacebook(BuildContext context) async {
+    AuthResult authResult;
+    try {
+      authResult = await FirebaseAuthentication.singInWithFacebook();
+      if (authResult == null) {
+        return;
+      }
       Navigator.of(context).pushReplacementNamed(ToDo.routeName);
     } on PlatformException catch (err) {
       throw err;
@@ -66,14 +82,12 @@ class AuthScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
-
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       body: AuthForm(
         submitFn: _submitAuthForm,
         tryWithGoogle: _tryWithGoogle,
+        tryWithFacebook: _tryWithFacebook,
       ),
     );
   }
