@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:override_todo_demo/providers/auth_login_sign.dart';
+import 'package:override_todo_demo/providers/spinner.dart';
 import 'package:override_todo_demo/screens/auth.dart';
+import 'package:override_todo_demo/screens/toDo_home.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -13,16 +14,19 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
-          value: Auth(),
+          value: Loading(),
         ),
       ],
       child: MaterialApp(
         title: 'Overide ToDo Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.blueGrey,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: Login(),
+        home: AuthScreen(),
+        routes: {
+          ToDo.routeName: (_) => ToDo(),
+        },
       ),
     );
   }
