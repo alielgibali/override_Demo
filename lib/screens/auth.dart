@@ -1,7 +1,8 @@
 import 'package:flutter/services.dart';
 import 'package:override_todo_demo/helpers/firebase_auth.dart';
 import 'package:override_todo_demo/providers/spinner.dart';
-import 'package:override_todo_demo/screens/toDo_home.dart';
+import 'package:override_todo_demo/screens/general.dart';
+
 import 'package:provider/provider.dart';
 
 import '.././widgets/auth_form.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthScreen extends StatelessWidget {
+  FirebaseUser user;
   void _submitAuthForm(
     String email,
     String userName,
@@ -20,11 +22,21 @@ class AuthScreen extends StatelessWidget {
     AuthResult authResult;
     try {
       if (isLogin) {
-        authResult = await FirebaseAuthentication.signIn(email, password);
+        authResult = await FirebaseAuthentication.signIn(email, password)
+            .whenComplete(() async {
+          user = await FirebaseAuth.instance.currentUser();
+        });
       } else {
-        authResult = await FirebaseAuthentication.signUp(email, password);
+        authResult = await FirebaseAuthentication.signUp(email, password)
+            .whenComplete(() async {
+          user = await FirebaseAuth.instance.currentUser();
+        });
       }
-      Navigator.of(ctx).pushReplacementNamed(ToDo.routeName);
+      Navigator.of(ctx).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => General(user),
+        ),
+      );
     } on PlatformException catch (err) {
       Provider.of<Loading>(ctx, listen: false).changeLoadingUI();
 
@@ -53,11 +65,19 @@ class AuthScreen extends StatelessWidget {
   void _tryWithGoogle(BuildContext context) async {
     AuthResult authResult;
     try {
-      authResult = await FirebaseAuthentication.signInWithGoogle();
+      authResult = await FirebaseAuthentication.signInWithGoogle()
+          .whenComplete(() async {
+        user = await FirebaseAuth.instance.currentUser();
+      });
+
       if (authResult == null) {
         return;
       }
-      Navigator.of(context).pushReplacementNamed(ToDo.routeName);
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => General(user),
+        ),
+      );
     } on PlatformException catch (err) {
       throw err;
     } catch (error) {
@@ -68,11 +88,19 @@ class AuthScreen extends StatelessWidget {
   void _tryWithFacebook(BuildContext context) async {
     AuthResult authResult;
     try {
-      authResult = await FirebaseAuthentication.singInWithFacebook();
+      authResult = await FirebaseAuthentication.singInWithFacebook()
+          .whenComplete(() async {
+        user = await FirebaseAuth.instance.currentUser();
+      });
+
       if (authResult == null) {
         return;
       }
-      Navigator.of(context).pushReplacementNamed(ToDo.routeName);
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => General(user),
+        ),
+      );
     } on PlatformException catch (err) {
       throw err;
     } catch (error) {
@@ -83,7 +111,6 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
       body: AuthForm(
         submitFn: _submitAuthForm,
         tryWithGoogle: _tryWithGoogle,
